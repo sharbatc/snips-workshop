@@ -3,17 +3,43 @@
 from hermes_python.hermes import Hermes
 
 INTENT_HOW_ARE_YOU = "sharbatc:how_are_you"
+INTENT_GOOD = "sharbatc:feeling_ok"
+INTENT_BAD = "sharbatc:feeling_bad"
+INTENT_ALRIGHT = "sharbatc:feeling_great"
+
+INTENT_FILTER_FEELING = [INTENT_GOOD, INTENT_BAD, INTENT_ALRIGHT]
 
 
 def main():
     with Hermes("localhost:1883") as h:
         h.subscribe_intent(INTENT_HOW_ARE_YOU, how_are_you_callback) \
+         .subscribe_intent(INTENT_GOOD, feeling_good_callback) \
+         .subscribe_intent(INTENT_BAD, feeling_bad_callback) \
+         .subscribe_intent(INTENT_ALRIGHT, feeling_alright_callback) \
          .start()
 
 
 def how_are_you_callback(hermes, intent_message):
     session_id = intent_message.session_id
-    response = "I do not swear"
+    response = "I'm doing great. How about you?"
+    hermes.publish_continue_session(session_id, response, INTENT_FILTER_FEELING)
+
+
+def feeling_good_callback(hermes, intent_message):
+    session_id = intent_message.session_id
+    response = "Remember that this too shall pass."
+    hermes.publish_end_session(session_id, response)
+
+
+def feeling_bad_callback(hermes, intent_message):
+    session_id = intent_message.session_id
+    response = "Good. Stay bad"
+    hermes.publish_end_session(session_id, response)
+
+
+def feeling_alright_callback(hermes, intent_message):
+    session_id = intent_message.session_id
+    response = "Oh well."
     hermes.publish_end_session(session_id, response)
 
 
