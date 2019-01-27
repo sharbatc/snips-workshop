@@ -3,9 +3,9 @@
 from hermes_python.hermes import Hermes
 
 INTENT_HOW_ARE_YOU = "sharbatc:how_are_you"
-INTENT_GOOD = "sharbatc:feeling_ok"
+INTENT_GOOD = "sharbatc:feeling_great"
 INTENT_BAD = "sharbatc:feeling_bad"
-INTENT_ALRIGHT = "sharbatc:feeling_great"
+INTENT_ALRIGHT = "sharbatc:feeling_ok"
 
 INTENT_FILTER_FEELING = [INTENT_GOOD, INTENT_BAD, INTENT_ALRIGHT]
 
